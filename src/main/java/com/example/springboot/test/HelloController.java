@@ -11,7 +11,6 @@ public class HelloController {
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String say() {
-
         return dome;
     }
 
