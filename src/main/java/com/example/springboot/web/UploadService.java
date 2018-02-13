@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.springboot.domain.*;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -28,6 +30,12 @@ public class UploadService {
 
     //  创建日志
     private final static Logger logger = LoggerFactory.getLogger(HttpAspect.class);
+
+    @Autowired
+    private UploadRepository uploadRepository;
+
+    //  实例化Upload
+    Upload upload = new Upload();
 
     public Object FileUploadServlet(MultipartFile file) {
         //  判断文件是否不存在!
@@ -59,7 +67,12 @@ public class UploadService {
         try {
             //  保存文件
             file.transferTo(mkdirs);
-            return ResultTools.success();
+            //  保存数据
+            upload.setImage_name(newFileName);
+            upload.setImage_path(file_path + newFileName);
+            String create_time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+            upload.setCreate_time(create_time);
+            return ResultTools.success(uploadRepository.save(upload));
         } catch(Exception e) {
             e.printStackTrace();
         }

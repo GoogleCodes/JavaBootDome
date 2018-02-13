@@ -41,6 +41,4 @@ public class UploadController {
         return uploadService.FileUploadServlet(file);
     }
 
-
-
 }
